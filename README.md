@@ -1,6 +1,8 @@
 # MambaVoiceCloning (MVC) - Efficient and Expressive TTS with State-Space Modeling
 
-This paper presents **MambaVoiceCloning (MVC)**, a scalable and expressive text-to-speech (TTS) framework that unifies *state-space sequence modeling* with *diffusion-driven style control*. Distinct from prior diffusion-based models, MVC replaces all self-attention and recurrent components in the TTS pipeline with novel Mamba-based modules: a Bi-Mamba Text Encoder, Temporal Bi-Mamba Encoder, and Expressive Mamba Predictor. These modules enable linear-time modeling of long-range phonetic and prosodic dependencies, improving efficiency and expressiveness without relying on external reference encoders. While MVC uses a diffusion-based decoder for waveform generation, our contribution is architectural—introducing the first end-to-end Mamba-integrated TTS backbone. Extensive experiments on LJSpeech and LibriTTS demonstrate that MVC significantly improves naturalness, prosody, intelligibility, and latency over state-of-the-art methods. MVC maintains a lightweight footprint of 21M parameters and achieves 1.6× faster training than comparable Transformer-based baselines.
+## 📄 Abstract
+
+MambaVoiceCloning (MVC) asks whether the conditioning path of diffusion-based TTS can be made fully SSM-only at inference—removing all attention and explicit RNN-style recurrence layers across text, rhythm, and prosody—while preserving or improving quality under controlled conditions. MVC combines a gated bidirectional Mamba text encoder, a Temporal Bi-Mamba supervised by a lightweight alignment teacher discarded after training, and an Expressive Mamba with AdaLN modulation, yielding linear-time O(T) conditioning with bounded activation memory and practical finite look-ahead streaming. Unlike prior Mamba–TTS systems that remain hybrid at inference, MVC removes attention-based duration and style modules under a fixed StyleTTS2 mel–diffusion–vocoder backbone. Trained on LJSpeech/LibriTTS and evaluated on VCTK, CSS10 (ES/DE/FR), and long-form Gutenberg passages, MVC achieves modest but statistically reliable gains over StyleTTS2, VITS, and Mamba–attention hybrids in MOS/CMOS, F$_0$ RMSE, MCD, and WER, while reducing encoder parameters to 21M and improving throughput by 1.6×. Diffusion remains the dominant latency source, but SSM-only conditioning improves memory footprint, stability, and deployability.
 
 ### 🎧 Audio Demos
 Explore MVC's expressive and high-quality speech synthesis through our audio samples: [MVC Audio Demos](https://aiai-9.github.io/mvc1.github.io/)
@@ -124,6 +126,20 @@ python evaluate.py --config_path ./configs/config.yml
 * **Out of Memory:** Reduce batch size or sequence length if OOM errors occur.
 * **Audio Quality Issues:** Fine-tune model hyperparameters for specific datasets.
 
+## 📖 Citation
+
+If you use MVC in your research, please cite:
+
+```bibtex
+@inproceedings{kumar2026mambavoicecloning,
+  title={MambaVoiceCloning: Efficient and Expressive Text-to-Speech via State-Space Modeling and Diffusion Control},
+  author={Sahil Kumar and Namrataben Patel and Honggang Wang and Youshan Zhang},
+  booktitle={The Fourteenth International Conference on Learning Representations},
+  year={2026},
+  url={https://openreview.net/forum?id=0oXyMbPMtP}
+}
+```
+
 ## 📄 License
 
 This project is released under the MIT License. See the LICENSE file for more details.
@@ -136,6 +152,6 @@ We welcome contributions! Please read the CONTRIBUTING.md file for guidelines on
 
 MVC builds on prior work from the Mamba, StyleTTS2, and VITS communities. We thank the authors for their foundational contributions to the field of TTS.
 
-<!-- ## 📫 Contact
+## 📫 Contact
 
-For questions or collaboration, please reach out via GitHub issues or contact us directly at [skumar4@mail.yu.edu](mailto:skumar4@mail.yu.edu). -->
+For questions or collaboration, please reach out via GitHub issues or contact us directly at [skumar4@mail.yu.edu](mailto:skumar4@mail.yu.edu).
