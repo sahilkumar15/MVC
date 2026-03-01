@@ -154,4 +154,4 @@ MVC builds on prior work from the Mamba, StyleTTS2, and VITS communities. We tha
 
 ## 📫 Contact
 
-For questions or collaboration, please reach out via GitHub issues or contact us directly at [skumar4@mail.yu.edu](mailto:skumar4@mail.yu.edu).
+For questions or collaboration, please reach out via GitHub issues or contact us directly at [sahilkumar4ai@gmail.com](mailto:sahilkumar4ai@gmail.com).
