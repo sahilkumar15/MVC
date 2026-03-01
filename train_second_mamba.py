@@ -41,7 +41,7 @@ import os
 os.environ["NCCL_DEBUG"] = "WARN"
 
 
-# simple fix for dataparallel that allows access to class attributes
+
 class MyDataParallel(torch.nn.DataParallel):
     def __getattr__(self, name):
         try:
@@ -221,11 +221,6 @@ def main(config_path):
             g['initial_lr'] = optimizer_params.ft_lr
             g['min_lr'] = 0
             g['weight_decay'] = 1e-4
-        
-    # load models if there is a model
-    # if load_pretrained:
-    #     model, optimizer, start_epoch, iters = load_checkpoint(model,  optimizer, config['pretrained_model'],
-    #                                 load_only_params=config.get('load_only_params', True))
 
     # Construct the resume checkpoint path using log_dir and resume_checkpoint from config.yml
     resume_checkpoint_filename = config.get('resume_checkpoint', '')  # Get the resume checkpoint file name
@@ -468,17 +463,6 @@ def main(config_path):
 
             loss_ce = 0
             loss_dur = 0
-            # for _s2s_pred, _text_input, _text_length in zip(d, (d_gt), input_lengths):
-            #     _s2s_pred = _s2s_pred[:_text_length, :]
-            #     _text_input = _text_input[:_text_length].long()
-            #     _s2s_trg = torch.zeros_like(_s2s_pred)
-            #     for p in range(_s2s_trg.shape[0]):
-            #         _s2s_trg[p, :_text_input[p]] = 1
-            #     _dur_pred = torch.sigmoid(_s2s_pred).sum(axis=1)
-
-            #     loss_dur += F.l1_loss(_dur_pred[1:_text_length-1], 
-            #                            _text_input[1:_text_length-1])
-            #     loss_ce += F.binary_cross_entropy_with_logits(_s2s_pred.flatten(), _s2s_trg.flatten())
             
             for _s2s_pred, _text_input, _text_length in zip(d, d_gt, input_lengths):
                 _s2s_pred = _s2s_pred[:_text_length, :]
@@ -735,10 +719,6 @@ def main(config_path):
                     y_rec = model.decoder(en, F0_fake, N_fake, s)
                     loss_mel = stft_loss(y_rec.squeeze(), wav.detach())
 
-                    # F0_real, _, F0 = model.pitch_extractor(gt.unsqueeze(1)) 
-
-                    # Ensure that gt has the correct number of dimensions before unsqueeze
-                    # print("Shape of gt before unsqueeze:", gt.shape)
 
                     # Ensure the gt tensor has a consistent 4D shape: [batch_size, 1, 80, sequence_length]
                     if gt.dim() == 3:

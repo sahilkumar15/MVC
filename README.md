@@ -62,7 +62,7 @@ accelerate launch train_first.py --config_path ./configs/config.yml
 Second stage training (Diffusion-based decoder and adversarial refinement):
 
 ```bash
-python train_second.py --config_path ./configs/config.yml
+python train_second_mamba.py --config_path ./configs/config.yml
 ```
 
 ### Inference
